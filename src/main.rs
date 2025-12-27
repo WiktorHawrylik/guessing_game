@@ -222,7 +222,3 @@ fn GuessingGame() -> impl IntoView {
         </main>
     }
 }
-
-fn main() {
-    mount_to_body(|| view! { <GuessingGame/> })
-}
