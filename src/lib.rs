@@ -16,7 +16,7 @@ fn GuessingGame() -> impl IntoView {
     let (feedback, set_feedback) =
         create_signal(String::from("Guess the number between 1 and 100."));
 
-    let handle_guess = move |_| {
+    let guess_handler = move || {
         let trimmed = guess.get().trim().to_string();
 
         let Ok(number) = trimmed.parse::<i32>() else {
@@ -250,13 +250,13 @@ fn GuessingGame() -> impl IntoView {
                         prop:disabled=move || status.get() == Some(Ordering::Equal)
                         on:keydown=move |ev| {
                             if ev.key() == "Enter" && status.get() != Some(Ordering::Equal) {
-                                handle_guess(());
+                                guess_handler();
                             }
                         }
                     />
                     <button
                         class="primary"
-                        on:click=handle_guess
+                        on:click=move |_| guess_handler()
                         disabled=move || status.get() == Some(Ordering::Equal)
                     >
                         "Check guess"
