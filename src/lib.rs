@@ -229,6 +229,32 @@ fn GuessingGame() -> impl IntoView {
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 200ms ease;
+        }
+
+        .badge.status-too-low {
+            background: rgba(14, 165, 233, 0.15);
+            border-color: rgba(14, 165, 233, 0.4);
+            color: #7dd3fc;
+        }
+
+        .badge.status-too-high {
+            background: rgba(249, 115, 22, 0.15);
+            border-color: rgba(249, 115, 22, 0.4);
+            color: #fed7aa;
+        }
+
+        .badge.status-winner {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.5);
+            color: #86efac;
+            animation: pulse 0.8s ease-in-out infinite;
+        }
+
+        .badge.status-waiting {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
         }
     "#;
 
@@ -267,14 +293,22 @@ fn GuessingGame() -> impl IntoView {
                 </div>
                 <div class="meta">
                     <span class="badge">{"Attempts: "}{move || attempts.get()}</span>
-                    <span class="badge">{"Status: "}{
-                        move || match status.get() {
-                            Some(Ordering::Less) => "Too low".to_string(),
-                            Some(Ordering::Greater) => "Too high".to_string(),
-                            Some(Ordering::Equal) => "Winner!".to_string(),
-                            None => "Waiting for guess".to_string(),
+                    <span 
+                        class="badge"
+                        class:status-too-low=move || status.get() == Some(Ordering::Less)
+                        class:status-too-high=move || status.get() == Some(Ordering::Greater)
+                        class:status-winner=move || status.get() == Some(Ordering::Equal)
+                        class:status-waiting=move || status.get().is_none()
+                    >
+                        {"Status: "}{
+                            move || match status.get() {
+                                Some(Ordering::Less) => "Too low".to_string(),
+                                Some(Ordering::Greater) => "Too high".to_string(),
+                                Some(Ordering::Equal) => "Winner!".to_string(),
+                                None => "Waiting for guess".to_string(),
+                            }
                         }
-                    }</span>
+                    </span>
                 </div>
             </section>
         </main>
