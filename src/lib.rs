@@ -248,6 +248,11 @@ fn GuessingGame() -> impl IntoView {
                         prop:value=move || guess.get().clone()
                         on:input=move |ev| set_guess.set(event_target_value(&ev))
                         prop:disabled=move || status.get() == Some(Ordering::Equal)
+                        on:keydown=move |ev| {
+                            if ev.key() == "Enter" && status.get() != Some(Ordering::Equal) {
+                                handle_guess(());
+                            }
+                        }
                     />
                     <button
                         class="primary"
