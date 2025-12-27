@@ -1,12 +1,50 @@
-use leptos::event_target_value;
-use leptos::*;
 use rand::Rng;
 use std::cmp::Ordering;
+use std::io;
+
+#[cfg(target_arch = "wasm32")]
+use leptos::event_target_value;
+#[cfg(target_arch = "wasm32")]
+use leptos::*;
 
 fn generate_secret_number() -> i32 {
     rand::thread_rng().gen_range(1..=100)
 }
 
+#[cfg(not(target_arch = "wasm32"))]
+fn run_cli() {
+    println!("Guess the number!");
+
+    let secret_number = generate_secret_number();
+
+    loop {
+        println!("Please input your guess.");
+
+        let mut guess = String::new();
+
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+
+        let Ok(guess) = guess.trim().parse::<u32>() else {
+            println!("Please type a number!");
+            continue;
+        };
+
+        println!("You guessed: {guess}");
+
+        match guess.cmp(&(secret_number as u32)) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
+    }
+}
+
+#[cfg(target_arch = "wasm32")]
 #[component]
 fn GuessingGame() -> impl IntoView {
     let (secret_number, set_secret_number) = create_signal(generate_secret_number());
@@ -223,6 +261,12 @@ fn GuessingGame() -> impl IntoView {
     }
 }
 
+#[cfg(target_arch = "wasm32")]
 fn main() {
     mount_to_body(|| view! { <GuessingGame/> })
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn main() {
+    run_cli();
 }
