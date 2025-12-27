@@ -24,6 +24,10 @@ fn GuessingGame() -> impl IntoView {
             return;
         };
 
+        if number < 1 || number > 100 {
+            set_feedback.set(String::from("Please enter a number between 1 and 100."));
+            return;
+        }
         let attempt_no = attempts.get() + 1;
         set_attempts.set(attempt_no);
 
