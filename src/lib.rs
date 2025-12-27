@@ -181,6 +181,17 @@ fn GuessingGame() -> impl IntoView {
             font-size: 1rem;
         }
 
+        /* Hide native number spinners */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
         input[type="number"]:focus {
             outline: 2px solid #0ea5e9;
             border-color: #0ea5e9;
