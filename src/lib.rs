@@ -236,8 +236,8 @@ fn GuessingGame() -> impl IntoView {
         <main class="page" class:won=move || status.get() == Some(Ordering::Equal)>
             <style>{styles}</style>
             <section class="card">
-                <h1>Guessing Game</h1>
-                <p class="description">Practice luck by guessing the random number ^_^</p>
+                <h1>Practice Luck</h1>
+                <p class="description">I'm thinking of a number between 1 and 100. Can you guess it?</p>
                 <p class="feedback" class:won=move || status.get() == Some(Ordering::Equal)>{move || feedback.get().clone()}</p>
                 <div class="controls">
                     <input
