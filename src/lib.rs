@@ -64,6 +64,34 @@ fn GuessingGame() -> impl IntoView {
             min-height: 100vh;
         }
 
+        @keyframes celebrate {
+            0% {
+                background: radial-gradient(circle at 20% 20%, #1e293b, #0b1021 45%),
+                            radial-gradient(circle at 80% 0%, #0ea5e9, transparent 35%),
+                            radial-gradient(circle at 10% 90%, #a855f7, transparent 45%);
+            }
+            25% {
+                background: radial-gradient(circle at 30% 30%, #22d3ee, #0b1021 45%),
+                            radial-gradient(circle at 70% 10%, #fbbf24, transparent 35%),
+                            radial-gradient(circle at 20% 80%, #ec4899, transparent 45%);
+            }
+            50% {
+                background: radial-gradient(circle at 50% 50%, #10b981, #0b1021 45%),
+                            radial-gradient(circle at 60% 20%, #f87171, transparent 35%),
+                            radial-gradient(circle at 30% 70%, #8b5cf6, transparent 45%);
+            }
+            75% {
+                background: radial-gradient(circle at 40% 40%, #06b6d4, #0b1021 45%),
+                            radial-gradient(circle at 75% 15%, #a78bfa, transparent 35%),
+                            radial-gradient(circle at 15% 75%, #f97316, transparent 45%);
+            }
+            100% {
+                background: radial-gradient(circle at 20% 20%, #1e293b, #0b1021 45%),
+                            radial-gradient(circle at 80% 0%, #0ea5e9, transparent 35%),
+                            radial-gradient(circle at 10% 90%, #a855f7, transparent 45%);
+            }
+        }
+
         main.page {
             min-height: 100vh;
             display: flex;
@@ -74,6 +102,11 @@ fn GuessingGame() -> impl IntoView {
                         radial-gradient(circle at 10% 90%, #a855f7, transparent 45%);
             padding: 2rem;
             box-sizing: border-box;
+            transition: background 0.3s ease;
+        }
+
+        main.page.won {
+            animation: celebrate 2s ease-in-out;
         }
 
         section.card {
@@ -108,6 +141,22 @@ fn GuessingGame() -> impl IntoView {
             border-radius: 12px;
             margin: 0 0 1.25rem;
             font-weight: 600;
+        }
+
+        p.feedback.won {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            color: #86efac;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
         }
 
         .controls {
@@ -180,12 +229,12 @@ fn GuessingGame() -> impl IntoView {
     "#;
 
     view! {
-        <main class="page">
+        <main class="page" class:won=move || status.get() == Some(Ordering::Equal)>
             <style>{styles}</style>
             <section class="card">
                 <h1>Guessing Game</h1>
                 <p class="description">Practice luck by guessing the random number ^_^</p>
-                <p class="feedback">{move || feedback.get().clone()}</p>
+                <p class="feedback" class:won=move || status.get() == Some(Ordering::Equal)>{move || feedback.get().clone()}</p>
                 <div class="controls">
                     <input
                         type="number"
@@ -223,6 +272,9 @@ fn GuessingGame() -> impl IntoView {
     }
 }
 
-fn main() {
-    mount_to_body(|| view! { <GuessingGame/> })
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen(start)]
+pub fn run() {
+    leptos::mount_to_body(|| view! { <GuessingGame/> });
 }
