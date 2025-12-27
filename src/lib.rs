@@ -110,7 +110,7 @@ fn GuessingGame() -> impl IntoView {
         }
 
         main.page.won {
-            animation: celebrate 2s ease-in-out;
+            animation: celebrate 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         section.card {
@@ -151,7 +151,7 @@ fn GuessingGame() -> impl IntoView {
             background: rgba(34, 197, 94, 0.2);
             border: 1px solid rgba(34, 197, 94, 0.5);
             color: #86efac;
-            animation: pulse 1s infinite;
+            animation: pulse 0.6s ease-in-out infinite;
         }
 
         @keyframes pulse {

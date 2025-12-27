@@ -1,10 +1,18 @@
-# Guessing Game - Leptos WebAssembly UI
+# Practice Luck 🎲
 
-Interactive number guessing game built with Rust and Leptos, compiled to WebAssembly and running in your browser.
+A beautiful number guessing game built entirely in Rust. Experience the joy of full-stack type safety with zero context switching between languages.
 
 ![Game Won](./docs/won_game.png)
 
-Learn Rust and Leptos by following the [Rust Language Book](https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html) with [Leptos](https://leptos.dev/) capabilities!
+## Why Leptos?
+
+**Reactive & Performant** - Fine-grained reactivity means only the DOM elements that change actually re-render. Lightning-fast UIs with minimal overhead, inspired by frameworks like SolidJS.
+
+**WebAssembly Speed** - Compiled to WebAssembly for near-native performance in the browser. Rust's memory safety guarantees and zero-cost abstractions, with zero garbage collection overhead.
+
+**Full-Stack Rust** - Write your entire application in one language. Share code between client and server, maintain type safety everywhere, and eliminate context switching forever.
+
+Learn Rust fundamentals through this [classic guessing game](https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html), now enhanced with [Leptos](https://leptos.dev/) magic!
 
 ## How to Play
 
@@ -27,12 +35,11 @@ python3 -m http.server 8080
 
 Open `http://localhost:8080` in your browser.
 
-
 ## Development
 
 **Project Structure:**
 
-```
+```text
 ├── Cargo.toml          # Rust dependencies
 ├── src/lib.rs          # Game code (compiled to WASM)
 ├── index.html          # Browser entry point
@@ -40,8 +47,8 @@ Open `http://localhost:8080` in your browser.
 └── pkg/                # Generated WASM files
 ```
 
-
 **Making changes:**
+
 1. Edit `src/`
 2. Rebuild: `wasm-pack build --target web --dev`
 3. Refresh browser
@@ -51,12 +58,14 @@ Open `http://localhost:8080` in your browser.
 ## Troubleshooting
 
 **Port 8080 in use?**
+
 ```bash
 lsof -i :8080 | grep -v COMMAND | awk '{print $2}' | xargs kill -9
 python3 -m http.server 8080
 ```
 
 **Build fails?**
+
 ```bash
 rustup target add wasm32-unknown-unknown
 cargo clean
@@ -67,5 +76,4 @@ wasm-pack build --target web --dev
 
 ---
 
-
-**Made with Rust 🦀 & Leptos**
+Made with Rust 🦀 & Leptos
